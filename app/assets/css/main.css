@@ -1,0 +1,306 @@
+/* ============================================================
+   Design tokens — from lyro_inspired_design_system.md
+   ============================================================ */
+:root {
+  /* Neutrals */
+  --ink: #0a0a0a;
+  --ink-soft: #252525;
+  --muted: #60646c;
+  --canvas: #f7f7f4;
+  --surface: #ffffff;
+  --surface-alt: #f0f1f2;
+  --border: #e0e2e5;
+  --border-strong: #c9cdd2;
+
+  /* AI accent */
+  --lavender: #b9aeff;
+  --sky: #94c7ff;
+  --pale-lavender: #eeeafe;
+  --pale-blue: #eaf4ff;
+  --accent-gradient: linear-gradient(135deg, #c5b9ff 0%, #9bc8ff 100%);
+
+  /* Functional */
+  --success: #18794e;
+  --warning: #a15c00;
+  --error: #c43232;
+
+  /* Radius */
+  --r-sm: 10px;
+  --r-btn: 12px;
+  --r-card: 20px;
+  --r-feature: 28px;
+  --r-media: 32px;
+  --r-pill: 999px;
+
+  /* Shadows */
+  --shadow-card: 0 12px 32px rgba(10, 10, 10, 0.05);
+  --shadow-float: 0 24px 70px rgba(10, 10, 10, 0.1);
+
+  /* Layout */
+  --container: 1200px;
+  --pad: 40px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Fonts */
+  --font-display: 'Inter Tight', 'Inter', Arial, sans-serif;
+  --font-body: 'Inter', Arial, sans-serif;
+}
+
+/* ============================================================
+   Reset / base
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+}
+
+p {
+  margin: 0;
+}
+
+/* ============================================================
+   Layout helpers
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+
+.section {
+  padding-top: 128px;
+  padding-bottom: 128px;
+}
+
+.section--compact {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+.section--alt {
+  background: var(--surface-alt);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lead {
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 640px;
+}
+
+/* Type scale (desktop) */
+.display-xl {
+  font-size: 76px;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+.h1 {
+  font-size: 56px;
+  line-height: 1.07;
+  letter-spacing: -0.035em;
+}
+.h2 {
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.h3 {
+  font-size: 32px;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+.h4 {
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: var(--r-btn);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.btn--primary {
+  background: var(--ink);
+  color: #fff;
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--ink-soft);
+  transform: translateY(-1px);
+}
+.btn--primary:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.btn--secondary:hover {
+  background: var(--surface-alt);
+}
+
+.btn--lg {
+  height: 58px;
+  padding: 0 32px;
+  font-size: 17px;
+}
+
+/* ============================================================
+   Card primitives
+   ============================================================ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-feature);
+  padding: 32px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: var(--pale-lavender);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid rgba(148, 199, 255, 0.9);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Responsive type + spacing
+   ============================================================ */
+@media (max-width: 1024px) {
+  :root {
+    --pad: 28px;
+  }
+  .display-xl {
+    font-size: 60px;
+  }
+  .h1 {
+    font-size: 48px;
+  }
+  .h2 {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --pad: 20px;
+  }
+  .section {
+    padding-top: 88px;
+    padding-bottom: 88px;
+  }
+  .display-xl {
+    font-size: 46px;
+    line-height: 1.04;
+  }
+  .h1 {
+    font-size: 40px;
+  }
+  .h2 {
+    font-size: 34px;
+  }
+  .h3 {
+    font-size: 27px;
+  }
+  .lead {
+    font-size: 18px;
+  }
+}
+
+/* ============================================================
+   Motion preference
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
