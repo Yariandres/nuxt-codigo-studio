@@ -3,6 +3,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  modules: ['@nuxt/scripts'],
+
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
@@ -14,6 +16,10 @@ export default defineNuxtConfig({
     public: {
       // Public base URL used for Stripe redirect + email links
       siteUrl: 'http://localhost:3000',
+      // Meta (Facebook) Pixel ID — filled from NUXT_PUBLIC_META_PIXEL_ID.
+      // Leave empty to disable the pixel (e.g. locally). The client plugin
+      // only loads the pixel when this is set. See app/plugins/meta-pixel.client.ts
+      metaPixelId: '',
     },
   },
 
