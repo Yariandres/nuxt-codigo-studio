@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const year = new Date().getFullYear()
+const { reopen } = useCookieConsent()
 </script>
 
 <template>
@@ -20,7 +21,13 @@ const year = new Date().getFullYear()
 
     <div class="container ftr__legal">
       <span>© {{ year }} AI Business Starter System</span>
-      <span>Produkt cyfrowy · płatności obsługuje Stripe</span>
+      <div class="ftr__legal-links">
+        <NuxtLink to="/pl/polityka-prywatnosci">Polityka prywatności</NuxtLink>
+        <button type="button" class="ftr__cookie-btn" @click="reopen">
+          Ustawienia cookies
+        </button>
+        <span>Produkt cyfrowy · płatności obsługuje Stripe</span>
+      </div>
     </div>
   </footer>
 </template>
@@ -71,5 +78,28 @@ const year = new Date().getFullYear()
   flex-wrap: wrap;
   font-size: 13px;
   color: var(--muted);
+}
+.ftr__legal-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ftr__legal-links a {
+  color: var(--muted);
+}
+.ftr__legal-links a:hover {
+  color: var(--ink);
+}
+.ftr__cookie-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+}
+.ftr__cookie-btn:hover {
+  color: var(--ink);
 }
 </style>

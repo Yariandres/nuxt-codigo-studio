@@ -20,11 +20,15 @@ const props = withDefaults(
 
 const loading = ref(false)
 const error = ref('')
+const pixel = useMetaPixel()
 
 async function buy() {
   if (loading.value) return
   loading.value = true
   error.value = ''
+  // Meta funnel: buyer intent, before we hand off to Stripe's hosted page
+  // (the pixel can't run there). No-op unless the user accepted cookies.
+  pixel.track('InitiateCheckout', WORKBOOK_PIXEL_EVENT)
   try {
     const { url } = await $fetch<{ url: string }>('/api/checkout', {
       method: 'POST',
