@@ -2,5 +2,6 @@
   <div>
     <NuxtRouteAnnouncer />
     <NuxtPage />
+    <CookieConsent />
   </div>
 </template>
