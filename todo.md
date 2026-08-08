@@ -31,6 +31,8 @@ Tracking remaining work to take the workbook sales page live.
 - [ ] Add invoice/company-details collection at checkout if selling B2B (Stripe `tax_id_collection`)
 - [ ] Buyer confirmation: consider a Stripe receipt email in addition to the Resend delivery email
 - [ ] Analytics (Plausible/GA) + track the "Kup workbook" click → purchase funnel
+- [x] **Meta Pixel consent/RODO (wersja PL)** — pixel gated behind an Accept/Reject cookie banner; `fbevents.js` never loads until the user accepts (verified). Consent state: [`app/composables/useCookieConsent.ts`](app/composables/useCookieConsent.ts) · banner: [`app/components/CookieConsent.vue`](app/components/CookieConsent.vue) · gated plugin: [`app/plugins/meta-pixel.client.ts`](app/plugins/meta-pixel.client.ts). Withdraw via footer "Ustawienia cookies" / "Cookie settings".
+  - [ ] Fill in real legal copy on the placeholder policy pages ([pl/polityka-prywatnosci.vue](app/pages/pl/polityka-prywatnosci.vue), [en/privacy-policy.vue](app/pages/en/privacy-policy.vue)) — see legal pages item above
 - [ ] OpenGraph/social share image (`public/og.png`) + meta tags for link previews
 - [ ] Consider download-link expiry or a max-download count (currently the paid session works indefinitely)
 - [ ] Fill remaining design-doc sections if wanted (before/after, built-for-owners+teams)
