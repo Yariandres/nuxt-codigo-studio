@@ -7,10 +7,25 @@ const downloadUrl = computed(() =>
 
 const hasSession = computed(() => sessionId.value.length > 0)
 
+const pixel = useMetaPixel()
+
+// Meta funnel: the conversion. Stripe redirects here after payment, so this is
+// where Purchase must fire (the pixel can't run on Stripe's hosted page).
+// Guarded per session id so a page reload doesn't double-count; the session id
+// is also passed as eventID for dedup with a future server-side Conversions API.
+function trackPurchaseOnce() {
+  if (!hasSession.value) return
+  const key = `fb-purchase-${sessionId.value}`
+  if (localStorage.getItem(key)) return
+  pixel.track('Purchase', WORKBOOK_PIXEL_EVENT, { eventID: sessionId.value })
+  localStorage.setItem(key, '1')
+}
+
 // Auto-start the download via a hidden iframe. For a paid session the endpoint
 // responds with an attachment (browser downloads, page stays put); if it fails,
 // only the invisible iframe is affected — the confirmation page is untouched.
 onMounted(() => {
+  trackPurchaseOnce()
   if (!downloadUrl.value) return
   setTimeout(() => {
     const frame = document.createElement('iframe')
