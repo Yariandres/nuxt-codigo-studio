@@ -40,14 +40,14 @@ const stack = [
             at hundreds per hour.
           </p>
           <div class="vs__price">
-            <span class="vs__price-was">Regular {{ PRICE_REGULAR }}</span>
-            <span class="vs__price-now">{{ PRICE_NOW }}</span>
+            <span class="vs__price-was">Regular {{ PRICE_REGULAR_EN }}</span>
+            <span class="vs__price-now">{{ PRICE_NOW_EN }}</span>
             <span class="vs__price-note">one-time · launch price</span>
           </div>
           <div class="vs__cta">
             <BuyButton
               large
-              :label="`Get instant access → ${PRICE_NOW}`"
+              :label="`Get instant access → ${PRICE_NOW_EN}`"
               loading-text="Redirecting…"
               error-text="Couldn't start checkout. Please try again."
             />

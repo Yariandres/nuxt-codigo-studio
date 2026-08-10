@@ -1,15 +1,31 @@
 /**
- * Single source of truth for the price shown on the English landing page (`/en`).
+ * Price DISPLAY strings for the landing pages.
  *
- * NOTE: these are DISPLAY strings only. The amount actually charged lives in
- * `server/utils/stripe.ts` (`PRODUCT.currency` + `PRODUCT.unitAmount`). If you change
- * the currency/number here, change it there too so the page and the charge match.
+ * IMPORTANT — display vs. charge:
+ * Stripe charges a single base amount in PLN (`server/utils/stripe.ts`:
+ * `PRODUCT.currency` + `PRODUCT.unitAmount` = 149,00 zł). With Stripe
+ * **Adaptive Pricing** enabled, the Checkout page then shows/charges the buyer's
+ * local currency automatically (Stripe-converted, ML-chosen, 24h-locked rate).
  *
- * Current Stripe charge: 149,00 zł (PLN). Adjust all of these together.
+ * These constants only control the marketing-page anchor. They cannot equal the
+ * exact converted amount (Stripe picks that at checkout), so the `_EN` values are
+ * a rounded USD anchor — the checkout shows the buyer their precise local price.
+ *
+ * - `PRICE_NOW` / `PRICE_REGULAR`  → Polish page (`/pl`), matches the PLN charge.
+ * - `PRICE_NOW_EN` / `PRICE_REGULAR_EN` → English page (`/en`), USD anchor.
  */
 export const PRICE_NOW = '149 zł'
 /** The price the launch offer will rise to — used for the anchor + urgency copy. */
 export const PRICE_REGULAR = '199 zł'
+
+/**
+ * English-page (`/en`) display anchor, in USD (≈ 149 zł). Buyers worldwide see
+ * their own local currency at Stripe Checkout via Adaptive Pricing; this is only
+ * the on-page anchor. Keep roughly in line with the PLN charge — nudge if FX drifts.
+ */
+export const PRICE_NOW_EN = '$39'
+/** English-page anchor the launch offer rises to (≈ 199 zł). */
+export const PRICE_REGULAR_EN = '$49'
 
 /** Numeric amount charged, for analytics/conversion values. Keep in sync with the Stripe charge. */
 export const PRICE_VALUE = 149
