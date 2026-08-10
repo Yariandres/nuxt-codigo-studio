@@ -18,12 +18,22 @@ Tracking remaining work to take the workbook sales page live.
 
 ## 🚀 Deploy (Dokploy)
 
-- [ ] Create app in Dokploy from this repo (Dockerfile build)
-- [ ] Set the 5 env vars (`NUXT_PUBLIC_SITE_URL=https://your-domain`, no trailing slash)
+- [x] Create app in Dokploy from this repo (Dockerfile build)
+- [x] Set the 5 env vars (`NUXT_PUBLIC_SITE_URL=https://your-domain`, no trailing slash)
 - [ ] Add live Stripe webhook: `https://your-domain/api/stripe/webhook` → event `checkout.session.completed`
 - [ ] Copy the live `whsec_…` into `NUXT_STRIPE_WEBHOOK_SECRET` and redeploy
 - [ ] Switch Stripe keys from test → live (`sk_live_…`)
 - [ ] Run one real purchase against production to confirm the full flow
+
+## 🌍 Multi-geo / `/en` (later — after PL launch)
+
+Decision: one Codigo-studio account, single PLN base price, **Stripe Adaptive Pricing** auto-converts
+to the buyer's local currency at Checkout (no code branching). VAT deferred for now.
+
+- [x] `/en` shows a USD anchor (`$39`/`$49`) instead of złoty — [app/utils/pricing.ts](app/utils/pricing.ts) (`PRICE_NOW_EN`)
+- [ ] Enable Adaptive Pricing (sandbox → live): [dashboard.stripe.com/settings/adaptive-pricing](https://dashboard.stripe.com/settings/adaptive-pricing)
+- [ ] **Sanity-check the checkout redirect** with a `+location_XX` email (e.g. `test+location_GB@example.com`) —
+  confirm Stripe Checkout shows that country's currency; base still books as PLN via `presentment_details`
 
 ## ✨ Nice-to-have / polish (optional)
 
