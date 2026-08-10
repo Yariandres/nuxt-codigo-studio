@@ -46,7 +46,7 @@ const pains = [
         <div class="hero__cta">
           <BuyButton
             large
-            :label="`Show me where AI fits → ${PRICE_NOW}`"
+            :label="`Show me where AI fits → ${PRICE_NOW_EN}`"
             loading-text="Redirecting…"
             error-text="Couldn't start checkout. Please try again."
           />

@@ -25,8 +25,8 @@ const payments = ['BLIK', 'Visa', 'Mastercard', 'Przelewy24', 'Apple Pay', 'Goog
       <div class="buy__urgency">
         <span class="buy__urgency-dot" aria-hidden="true"></span>
         <span>
-          <strong>Launch price.</strong> {{ PRICE_NOW }} now, rising to {{ PRICE_REGULAR }} after the
-          launch window. Lock the lower price today.
+          <strong>Launch price.</strong> {{ PRICE_NOW_EN }} now, rising to {{ PRICE_REGULAR_EN }}
+          after the launch window. Lock the lower price today.
         </span>
       </div>
 
@@ -46,10 +46,10 @@ const payments = ['BLIK', 'Visa', 'Mastercard', 'Przelewy24', 'Apple Pay', 'Goog
 
           <div class="buy__price">
             <div class="buy__price-row">
-              <span class="buy__value">{{ PRICE_NOW }}</span>
-              <span class="buy__was">{{ PRICE_REGULAR }}</span>
+              <span class="buy__value">{{ PRICE_NOW_EN }}</span>
+              <span class="buy__was">{{ PRICE_REGULAR_EN }}</span>
             </div>
-            <span class="buy__value-note">one-time · no subscription</span>
+            <span class="buy__value-note">one-time · no subscription · shown in USD</span>
           </div>
 
           <ul class="buy__list">
@@ -59,7 +59,7 @@ const payments = ['BLIK', 'Visa', 'Mastercard', 'Przelewy24', 'Apple Pay', 'Goog
           <div class="buy__cta">
             <BuyButton
               large
-              :label="`Get instant access → ${PRICE_NOW}`"
+              :label="`Get instant access → ${PRICE_NOW_EN}`"
               loading-text="Redirecting…"
               error-text="Couldn't start checkout. Please try again."
             />
@@ -72,7 +72,9 @@ const payments = ['BLIK', 'Visa', 'Mastercard', 'Przelewy24', 'Apple Pay', 'Goog
           <div class="buy__pay">
             <span v-for="p in payments" :key="p" class="buy__pay-badge">{{ p }}</span>
           </div>
-          <p class="buy__pay-note">Secure payments handled by Stripe.</p>
+          <p class="buy__pay-note">
+            Secure payments handled by Stripe. You'll pay in your local currency at checkout.
+          </p>
         </div>
       </div>
     </div>

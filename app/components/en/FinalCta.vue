@@ -13,15 +13,15 @@
       <div class="fcta__cta">
         <BuyButton
           large
-          :label="`Get the workbook → ${PRICE_NOW}`"
+          :label="`Get the workbook → ${PRICE_NOW_EN}`"
           loading-text="Redirecting…"
           error-text="Couldn't start checkout. Please try again."
         />
       </div>
 
       <p class="fcta__trust">
-        14-day money-back guarantee · instant access · one-time {{ PRICE_NOW }} (rising to
-        {{ PRICE_REGULAR }})
+        14-day money-back guarantee · instant access · one-time {{ PRICE_NOW_EN }} (rising to
+        {{ PRICE_REGULAR_EN }})
       </p>
     </div>
   </section>
