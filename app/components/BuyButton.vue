@@ -22,6 +22,11 @@ const loading = ref(false)
 const error = ref('')
 const pixel = useMetaPixel()
 
+// Locale from the landing page (/en → English workbook, everything else → Polish).
+// Sent to checkout so the buyer receives the PDF in the language they bought in.
+const route = useRoute()
+const locale = computed(() => (route.path.startsWith('/en') ? 'en' : 'pl'))
+
 async function buy() {
   if (loading.value) return
   loading.value = true
@@ -32,6 +37,7 @@ async function buy() {
   try {
     const { url } = await $fetch<{ url: string }>('/api/checkout', {
       method: 'POST',
+      body: { locale: locale.value },
     })
     if (url) {
       window.location.href = url

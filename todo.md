@@ -10,11 +10,31 @@ Tracking remaining work to take the workbook sales page live.
 - [ ] **Set up Resend** for email delivery
   - Create account, add + verify a sending domain
   - Fill `NUXT_RESEND_API_KEY` and `NUXT_EMAIL_FROM` (e.g. `Workbook <kontakt@twojadomena.pl>`)
-- [ ] **Local end-to-end test** (Stripe test mode)
-  - Run: `stripe listen --forward-to localhost:3000/api/stripe/webhook`
-  - Copy the printed `whsec_…` into `NUXT_STRIPE_WEBHOOK_SECRET`
-  - Buy with test card `4242 4242 4242 4242` (any future expiry/CVC)
-  - Confirm: land on `/success` → PDF downloads → email arrives
+- [x] **Local end-to-end test** (Stripe test mode) — ✅ passing on the Codigo-studio sandbox:
+  card `4242…` → webhook `200` → `/success` PDF download → Resend email delivered (via `onboarding@resend.dev`).
+- [ ] **Enable BLIK + Przelewy24** (+ Apple/Google Pay) in the Dashboard — checkout currently offers
+  **card only** (`payment_method_types: ["card"]`), but `/pl` advertises BLIK/P24 and they're the
+  dominant PL methods: [dashboard.stripe.com/settings/payment_methods](https://dashboard.stripe.com/settings/payment_methods) → re-test on `/pl`
+- [ ] **Fix Stripe Checkout branding** — display name currently shows "AI-Recipe" + blue button;
+  set brand name/logo/colors: [dashboard.stripe.com/settings/branding](https://dashboard.stripe.com/settings/branding)
+- [x] **Resend sending domain verified** — `resend.codigo-studio.com` (DKIM+SPF+MX green on GoDaddy);
+  `NUXT_EMAIL_FROM=Workbook <kontakt@resend.codigo-studio.com>`. Can now email real buyers.
+- [ ] **Fix duplicate SPF record (deliverability — emails hitting spam)** — `send.resend.codigo-studio.com`
+  has TWO `v=spf1` TXT records → SPF PermError. In GoDaddy delete `v=spf1 include:amazonses.com ~all`,
+  keep only Resend's `v=spf1 include:dc-fd741b8612._spfm.send.resend.codigo-studio.com ~all`, re-verify in
+  Resend. Confirm one line: `dig +short TXT send.resend.codigo-studio.com`.
+  (Note: the `localhost` link in test emails is a separate spam trigger that resolves in prod → `https://codigo-studio.com`.)
+
+## 🌐 Locale-aware delivery
+
+- [x] **Deliver the workbook in the buyer's language** — was a live bug: every `/pl` buyer got the
+  English PDF. Now `BuyButton` sends the page locale → stored on Stripe session `metadata.locale` →
+  `/api/download` serves `workbook-pl.pdf` or `workbook-en.pdf` (defaults to PL if missing). Product
+  name/description on Stripe Checkout and `cancel_url` are also localized. Verified live for both.
+  Assets: [server/assets/workbook-pl.pdf](server/assets), `workbook-en.pdf`; map: [server/utils/stripe.ts](server/utils/stripe.ts).
+- [ ] **EN launch i18n (later):** [success.vue](app/pages/success.vue) and the Resend email
+  ([server/utils/email.ts](server/utils/email.ts)) are still **Polish-only**, and `success_url` isn't
+  localized. Fine for PL launch; before the EN launch, add EN copy (webhook can read `metadata.locale`).
 
 ## 🚀 Deploy (Dokploy)
 

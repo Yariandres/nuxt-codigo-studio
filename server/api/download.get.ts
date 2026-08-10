@@ -1,4 +1,4 @@
-import { PRODUCT, useStripe } from '../utils/stripe'
+import { WORKBOOK, resolveWorkbookLocale, useStripe } from '../utils/stripe'
 
 /**
  * Verifies a Stripe Checkout session is paid, then streams the workbook PDF.
@@ -25,14 +25,19 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 402, statusMessage: 'Płatność nie została opłacona.' })
   }
 
+  // The workbook language was chosen at checkout (from the /pl or /en landing page)
+  // and stored on the session metadata — serve the matching PDF.
+  const locale = resolveWorkbookLocale(session.metadata?.locale)
+  const workbook = WORKBOOK[locale]
+
   // Read the PDF from server assets (bundled, not web-public).
-  const pdf = await useStorage('assets:server').getItemRaw('workbook.pdf')
+  const pdf = await useStorage('assets:server').getItemRaw(workbook.asset)
   if (!pdf) {
     throw createError({ statusCode: 500, statusMessage: 'Plik nie jest dostępny.' })
   }
 
   setHeader(event, 'Content-Type', 'application/pdf')
-  setHeader(event, 'Content-Disposition', `attachment; filename="${PRODUCT.fileName}"`)
+  setHeader(event, 'Content-Disposition', `attachment; filename="${workbook.fileName}"`)
   setHeader(event, 'Cache-Control', 'private, no-store')
   return pdf
 })

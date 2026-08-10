@@ -21,13 +21,44 @@ export function useStripe(): Stripe {
   return _stripe
 }
 
-/** Product constants — single source of truth for the checkout price. */
+export type WorkbookLocale = 'pl' | 'en'
+
+/** Shared price — same amount/currency for every locale (Adaptive Pricing localizes at checkout). */
 export const PRODUCT = {
-  name: 'AI Business Starter System — Interactive Workbook',
-  description: 'Interaktywny workbook (50 stron, PDF) + scorecard, szablony i 7-dniowy plan.',
   currency: 'pln',
   /** Amount in the smallest currency unit (grosze). 149,00 zł. */
   unitAmount: 14900,
-  /** Filename presented to the buyer on download. */
-  fileName: 'AI-for-Small-Business-Owners-Workbook.pdf',
 } as const
+
+/**
+ * Per-locale workbook content + which PDF to deliver. The buyer's locale is captured
+ * at checkout (from the /pl or /en landing page), stored on the Stripe session
+ * `metadata`, and read back in /api/download — so /pl buyers get the Polish workbook
+ * and /en buyers the English one.
+ */
+export const WORKBOOK: Record<WorkbookLocale, {
+  name: string
+  description: string
+  /** Filename presented to the buyer on download. */
+  fileName: string
+  /** Key in the `assets:server` storage → server/assets/<asset>. */
+  asset: string
+}> = {
+  pl: {
+    name: 'AI Business Starter System — Interaktywny Workbook',
+    description: 'Interaktywny workbook (50 stron, PDF) + scorecard, szablony i 7-dniowy plan.',
+    fileName: 'AI-dla-malych-firm-Workbook.pdf',
+    asset: 'workbook-pl.pdf',
+  },
+  en: {
+    name: 'AI Business Starter System — Interactive Workbook',
+    description: 'Interactive workbook (50 pages, PDF) + scorecard, templates and a 7-day plan.',
+    fileName: 'AI-for-Small-Business-Owners-Workbook.pdf',
+    asset: 'workbook-en.pdf',
+  },
+}
+
+/** Narrow arbitrary input to a supported locale; defaults to PL (primary market). */
+export function resolveWorkbookLocale(input: unknown): WorkbookLocale {
+  return input === 'en' ? 'en' : 'pl'
+}

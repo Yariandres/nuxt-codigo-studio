@@ -12,5 +12,6 @@ Dockerfile
 .DS_Store
 lyro_inspired_design_system.md
 README.md
-# Keep the source PDF out of the image root — it is already copied into server/assets/
-AI_for_Small_Business_Owners_Redesigned_Interactive.pdf
+# Keep source PDFs out of the image root — they are already copied into server/assets/ (workbook-en.pdf / workbook-pl.pdf)
+AI_for_Small_Business_Owners_Interactive.pdf
+AI_dla_malych_firm_Redesigned_Interactive_PL.pdf
