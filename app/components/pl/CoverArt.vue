@@ -66,7 +66,6 @@ const steps = ['Znajdź', 'Przygotuj', 'Zbuduj']
   color: #fff;
   overflow: hidden;
   isolation: isolate;
-  container-type: inline-size;
 }
 .cv__glow {
   position: absolute;
@@ -80,11 +79,11 @@ const steps = ['Znajdź', 'Przygotuj', 'Zbuduj']
 }
 .cv__watermark {
   position: absolute;
-  top: 15%;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
   width: 60%;
-  opacity: 0.16;
+  opacity: 0.9;
   z-index: -1;
   pointer-events: none;
 }
@@ -171,4 +170,9 @@ const steps = ['Znajdź', 'Przygotuj', 'Zbuduj']
   font-weight: 500;
   color: #8a8f98;
 }
+
+.cv {
+  container-type: inline-size;
+}
 </style>
+
