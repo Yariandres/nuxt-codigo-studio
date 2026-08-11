@@ -28,16 +28,28 @@ export default defineNuxtPlugin(() => {
   // the footer "Cookie settings" link); until then nothing hits facebook.net.
   const consent = useScriptTriggerConsent({ consent: accepted })
 
-  useScriptMetaPixel({
+  const { proxy } = useScriptMetaPixel({
     id: String(metaPixelId),
     // `bundle: false` overrides @nuxt/scripts' default for the Meta Pixel
     // (registry default is `bundle: true`), which self-hosts fbevents.js from
     // /_scripts/. Self-hosting makes the pixel invisible to Meta Pixel Helper
     // and stops the /tr beacons from registering in Events Manager. Loading the
     // canonical connect.facebook.net/fbevents.js is what ad attribution + Meta's
-    // tooling expect. Consent still gates it via the trigger below.
+    // tooling expect.
+    //
+    // Consent is enforced by the load trigger above: fbevents.js is never
+    // requested until `accepted` is true, so nothing fires pre-consent. We must
+    // NOT set `defaultConsent: 'denied'` here — that made clientInit call
+    // fbq('consent', 'revoke'), which left the pixel revoked so PageView /
+    // InitiateCheckout were tracked but never sent a /tr beacon (nothing ever
+    // called the matching grant). See the explicit grant below.
     scriptOptions: { trigger: consent, bundle: false },
-    // Belt-and-suspenders: keep Meta's own consent gate closed until grant.
-    defaultConsent: 'denied',
   })
+
+  // Explicitly grant Meta's consent the moment marketing cookies are accepted,
+  // guaranteeing the pixel is in a sending state (fbevents' own default can be
+  // non-sending depending on the pixel's consent settings). `proxy.fbq` queues
+  // until fbevents.js has loaded — which only happens post-consent via the
+  // trigger above — so this never sends anything before the user opts in.
+  watch(accepted, (ok) => { if (ok) proxy.fbq('consent', 'grant') }, { immediate: true })
 })
