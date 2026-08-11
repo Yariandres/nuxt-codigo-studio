@@ -30,7 +30,13 @@ export default defineNuxtPlugin(() => {
 
   useScriptMetaPixel({
     id: String(metaPixelId),
-    scriptOptions: { trigger: consent },
+    // `bundle: false` overrides @nuxt/scripts' default for the Meta Pixel
+    // (registry default is `bundle: true`), which self-hosts fbevents.js from
+    // /_scripts/. Self-hosting makes the pixel invisible to Meta Pixel Helper
+    // and stops the /tr beacons from registering in Events Manager. Loading the
+    // canonical connect.facebook.net/fbevents.js is what ad attribution + Meta's
+    // tooling expect. Consent still gates it via the trigger below.
+    scriptOptions: { trigger: consent, bundle: false },
     // Belt-and-suspenders: keep Meta's own consent gate closed until grant.
     defaultConsent: 'denied',
   })
