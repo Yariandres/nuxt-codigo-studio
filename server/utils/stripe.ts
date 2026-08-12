@@ -62,3 +62,11 @@ export const WORKBOOK: Record<WorkbookLocale, {
 export function resolveWorkbookLocale(input: unknown): WorkbookLocale {
   return input === 'en' ? 'en' : 'pl'
 }
+
+/**
+ * How long a paid download link stays valid, in seconds (7 days). The link in the
+ * delivery email is a bearer capability, so we cap its lifetime instead of allowing
+ * indefinite re-downloads. Stateless: enforced against the session's `created` time,
+ * so it needs no persistence. Buyers can re-download freely within the window.
+ */
+export const DOWNLOAD_WINDOW_SECONDS = 7 * 24 * 60 * 60

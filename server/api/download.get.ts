@@ -1,4 +1,4 @@
-import { WORKBOOK, resolveWorkbookLocale, useStripe } from '../utils/stripe'
+import { DOWNLOAD_WINDOW_SECONDS, WORKBOOK, resolveWorkbookLocale, useStripe } from '../utils/stripe'
 
 /**
  * Verifies a Stripe Checkout session is paid, then streams the workbook PDF.
@@ -23,6 +23,16 @@ export default defineEventHandler(async (event) => {
 
   if (session.payment_status !== 'paid') {
     throw createError({ statusCode: 402, statusMessage: 'Płatność nie została opłacona.' })
+  }
+
+  // Cap the link lifetime: the email link is a bearer capability, so a paid session
+  // only allows downloads for a fixed window after purchase (see DOWNLOAD_WINDOW_SECONDS).
+  const ageSeconds = Math.floor(Date.now() / 1000) - session.created
+  if (ageSeconds > DOWNLOAD_WINDOW_SECONDS) {
+    throw createError({
+      statusCode: 410,
+      statusMessage: 'Link do pobrania wygasł. Skontaktuj się z nami, aby otrzymać plik ponownie.',
+    })
   }
 
   // The workbook language was chosen at checkout (from the /pl or /en landing page)
