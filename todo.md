@@ -39,11 +39,26 @@ Tracking remaining work to take the workbook sales page live.
 ## 🚀 Deploy (Dokploy)
 
 - [x] Create app in Dokploy from this repo (Dockerfile build)
-- [x] Set the 5 env vars (`NUXT_PUBLIC_SITE_URL=https://your-domain`, no trailing slash)
-- [ ] Add live Stripe webhook: `https://your-domain/api/stripe/webhook` → event `checkout.session.completed`
-- [ ] Copy the live `whsec_…` into `NUXT_STRIPE_WEBHOOK_SECRET` and redeploy
-- [ ] Switch Stripe keys from test → live (`sk_live_…`)
-- [ ] Run one real purchase against production to confirm the full flow
+- [x] Set env vars, incl. `NUXT_PUBLIC_SITE_URL=https://codigo-studio.com` (no trailing slash) + pixel ID
+- [x] App deployed + live on `codigo-studio.com/pl` (pixel verified, buy button → Stripe)
+
+## 💳 Switch Stripe test → LIVE (final go-live — ⚠️ prod currently on TEST keys, real cards decline)
+
+Live keys go in **Dokploy only**, never local `.env` (keep local on `sk_test_`). Live-mode settings are
+separate from test — payment methods must be re-enabled.
+
+- [ ] **Step 0 — Activate account for live** — Dashboard → Live mode; complete profile + PL bank account
+  if prompted (payouts held until activated). Branding is account-wide (carries); payment methods are not.
+- [ ] **Step 1 — Get `sk_live_…`** — Live mode → Developers → API keys (no publishable key needed)
+- [ ] **Step 2 — Re-enable payment methods in LIVE** (BLIK, Przelewy24, cards, wallets):
+  [dashboard.stripe.com/settings/payment_methods](https://dashboard.stripe.com/settings/payment_methods)
+- [ ] **Step 3 — Add LIVE webhook** → `https://codigo-studio.com/api/stripe/webhook`, event
+  `checkout.session.completed` → copy its live `whsec_…`
+- [ ] **Step 4 — Update Dokploy env + redeploy:** `NUXT_STRIPE_SECRET_KEY=sk_live_…`,
+  `NUXT_STRIPE_WEBHOOK_SECRET=<live whsec_…>`, confirm `NUXT_PUBLIC_SITE_URL=https://codigo-studio.com`
+- [ ] **Step 5 — One real purchase on `/pl`** (149 zł): success → PL PDF → email from
+  `kontakt@resend.codigo-studio.com` → webhook `200` (live) → payment in live Transactions → Meta Purchase
+  event fires. Then refund from Dashboard (Stripe keeps the fee).
 
 ## 🌍 Multi-geo / `/en` (later — after PL launch)
 
