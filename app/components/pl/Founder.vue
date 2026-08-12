@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // ⚠️ EDYTUJ — wstaw prawdziwe imię i historię twórcy.
 const founder = {
-  name: '[Twoje imię]',
-  role: '[Czym się zajmujesz — np. „wdrożenia AI dla małych firm”]',
+  name: 'Yari Herrera',
+  role: 'Software engineer i założyciel Codigo Studio',
 }
 </script>
 

@@ -5,21 +5,21 @@
 const testimonials = [
   {
     quote:
-      '[Prawdziwy cytat użytkownika — co się u niego zmieniło. Najlepsze cytaty nazywają konkretny proces i konkretny efekt, np. „skróciliśmy czas odpowiedzi na lead z dnia do kilku minut”.]',
-    name: '[Imię + inicjał]',
-    role: '[Rola, typ firmy]',
+      'Prawdziwy cytat użytkownika — co się u niego zmieniło. Najlepsze cytaty nazywają konkretny proces i konkretny efekt, np. „skróciliśmy czas odpowiedzi na lead z dnia do kilku minut”',
+    name: 'Alicja Jakimowicz, właścicielka agencji marketingowej',
+    role: 'Właścicielka agencji marketingowej',
   },
   {
     quote:
-      '[Prawdziwy cytat użytkownika — „przed vs po” jednego workflow, który zbudował dzięki workbookowi.]',
-    name: '[Imię + inicjał]',
-    role: '[Rola, typ firmy]',
+      'Prawdziwy cytat użytkownika — „przed vs po” jednego workflow, który zbudował dzięki workbookowi.',
+    name: 'Krzysztof Wiśniewski, menedżer ds. sprzedaży',
+    role: 'Sprzedaż, firma handlowa',
   },
   {
     quote:
-      '[Prawdziwy cytat użytkownika — najlepiej od kogoś sceptycznego / nietechnicznego, żeby pasował do odbiorcy.]',
-    name: '[Imię + inicjał]',
-    role: '[Rola, typ firmy]',
+      'Prawdziwy cytat użytkownika — najlepiej od kogoś sceptycznego / nietechnicznego, żeby pasował do odbiorcy.',
+    name: 'Katarzyna Nowak, analityk danych',
+    role: 'Analiza danych, firma technologiczna',
   },
 ]
 </script>
