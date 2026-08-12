@@ -13,6 +13,9 @@ export default defineNuxtConfig({
     stripeWebhookSecret: '',
     resendApiKey: '',
     emailFrom: '',
+    // Inbox that contact-form messages are delivered to (NUXT_CONTACT_TO).
+    // Must be a real, receiving mailbox — replies go to the sender via reply-to.
+    contactTo: '',
     public: {
       // Public base URL used for Stripe redirect + email links
       siteUrl: 'http://localhost:3000',
