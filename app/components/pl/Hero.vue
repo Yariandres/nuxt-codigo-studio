@@ -16,8 +16,8 @@ const pains = [
         <span class="eyebrow">AI DLA MAŁYCH FIRM</span>
 
         <h1 class="hero__title">
-          Z każdym tygodniem zwłoki Twoja firma traci godziny i pieniądze na pracę,
-          <span class="hero__title-hl">którą AI mogłoby już wykonywać.</span>
+          Przestań tracić czas na zadania które, 
+          <span class="hero__title-hl"> AI mogłoby wykonywać za Ciebie.</span>
         </h1>
 
         <p class="hero__twist">Twoja konkurencja już zaczęła.</p>
