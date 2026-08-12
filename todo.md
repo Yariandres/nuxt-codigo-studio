@@ -75,16 +75,21 @@ to the buyer's local currency at Checkout (no code branching). VAT deferred for 
 - [x] **Download links expire 7 days after purchase** — stateless, enforced against Stripe
   `session.created` in [download.get.ts](server/api/download.get.ts) (`DOWNLOAD_WINDOW_SECONDS` in
   [stripe.ts](server/utils/stripe.ts)). Ships on next Dokploy deploy. Verified live (200 in-window / 410 after).
-- [ ] **Give the "link expired" message a real support channel** — it says *"Skontaktuj się z nami"* but
-  `kontakt@resend.codigo-studio.com` has **receiving disabled**, so replies bounce. Before 7 days after
-  the first sale: either enable receiving on the Resend domain, or point the copy at a real inbox.
+- [x] **Support channel solved by the contact form** (below) — messages land in a real inbox
+  (`NUXT_CONTACT_TO`) with the sender as reply-to, so no need to enable receiving on the Resend domain.
+- [ ] (Optional) Surface the contact form on `/success` too / link the "link expired" (410) copy to it —
+  the success page has no header, so a buyer hitting the expired link can't currently reach the form there.
 
 ## 📨 Contact form / support
 
-- [ ] **Add a contact form** — floating mail icon in the nav ([pl/Header.vue](app/components/pl/Header.vue) +
-  [en/Header.vue](app/components/en/Header.vue)) opening a simple message form. Doubles as the support channel
-  for the expired-download message above. Delivery via Resend (already wired) to a real inbox; needs a spam
-  guard (honeypot/rate-limit) and RODO/GDPR consent line. PL + EN copy.
+- [x] **Contact form built + verified** — mail icon in the nav ([pl/Header.vue](app/components/pl/Header.vue) +
+  [en/Header.vue](app/components/en/Header.vue)) opens a global modal ([ContactModal.vue](app/components/ContactModal.vue),
+  state via [useContact.ts](app/composables/useContact.ts)). Posts to [/api/contact](server/api/contact.post.ts)
+  → Resend to `NUXT_CONTACT_TO`, reply-to = sender ([email.ts](server/utils/email.ts) `sendContactEmail`).
+  Guards: hidden honeypot, per-IP rate-limit (5/10min), field validation, required RODO/GDPR consent + policy
+  link. PL + EN copy by route. Verified live: guards return 422/200, valid submit delivered an email.
+- [ ] **Set `NUXT_CONTACT_TO` in Dokploy production** (a real receiving inbox) + redeploy — without it the
+  form returns 502. Added to `.env.example`; local `.env` points at `yari.andres@gmail.com`.
 
 ## ✨ Nice-to-have / polish (optional)
 
