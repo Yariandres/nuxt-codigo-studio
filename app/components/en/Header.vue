@@ -5,6 +5,8 @@ const links = [
   { href: '#preview', label: 'Preview' },
   { href: '#faq', label: 'FAQ' },
 ]
+
+const { open: openContact } = useContact()
 </script>
 
 <template>
@@ -17,6 +19,12 @@ const links = [
       </nav>
 
       <div class="hdr__cta">
+        <button type="button" class="hdr__icon" aria-label="Contact" title="Contact" @click="openContact">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </svg>
+        </button>
         <a href="#buy" class="btn btn--primary hdr__buy">Get the workbook</a>
       </div>
     </div>
@@ -57,6 +65,27 @@ const links = [
 }
 .hdr__link:hover {
   color: var(--ink);
+}
+.hdr__cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hdr__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--r-btn);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.hdr__icon:hover {
+  color: var(--ink);
+  border-color: var(--border-strong);
+  background: var(--surface-alt);
 }
 .hdr__buy {
   height: 44px;

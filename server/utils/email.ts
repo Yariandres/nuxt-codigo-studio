@@ -12,6 +12,48 @@ function useResend(): Resend {
   return _resend
 }
 
+/** Minimal HTML-escape for user-supplied text embedded in the email body. */
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+/**
+ * Delivers a contact-form submission to our own inbox (NUXT_CONTACT_TO), with the
+ * sender's address as reply-to so we can answer them directly. Input is already
+ * validated in the route; we still escape it before embedding in HTML.
+ */
+export async function sendContactEmail(input: {
+  name: string
+  email: string
+  message: string
+  locale: 'pl' | 'en'
+}) {
+  const { emailFrom, contactTo } = useRuntimeConfig()
+  if (!contactTo) {
+    throw new Error('Brak NUXT_CONTACT_TO — nie skonfigurowano skrzynki kontaktowej.')
+  }
+  const resend = useResend()
+
+  await resend.emails.send({
+    from: emailFrom,
+    to: contactTo,
+    replyTo: input.email,
+    subject: `Kontakt (${input.locale.toUpperCase()}): ${input.name}`,
+    html: `
+      <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;color:#0a0a0a;line-height:1.55">
+        <p style="margin:0 0 4px"><strong>Od:</strong> ${escapeHtml(input.name)} &lt;${escapeHtml(input.email)}&gt;</p>
+        <p style="margin:0 0 16px;color:#60646c;font-size:13px">Formularz kontaktowy · locale: ${input.locale}</p>
+        <div style="white-space:pre-wrap;padding:16px;border:1px solid #e0e2e5;border-radius:12px">${escapeHtml(input.message)}</div>
+        <p style="margin:16px 0 0;color:#9aa0a6;font-size:12px">Odpowiedz na tę wiadomość, aby napisać bezpośrednio do nadawcy.</p>
+      </div>
+    `,
+  })
+}
+
 /**
  * Sends the buyer a link back to the /success page (which re-verifies the
  * Stripe session and serves the PDF). No file is attached — the link is the
