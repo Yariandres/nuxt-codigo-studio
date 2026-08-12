@@ -3,5 +3,6 @@
     <NuxtRouteAnnouncer />
     <NuxtPage />
     <CookieConsent />
+    <ContactModal />
   </div>
 </template>
