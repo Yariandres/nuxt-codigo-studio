@@ -68,7 +68,7 @@ useHead({ title: 'Dziękujemy — pobierz swój workbook' })
             Nie znaleźliśmy identyfikatora sesji płatności. Jeśli właśnie zapłaciłeś, sprawdź e-mail z
             linkiem do pobrania lub wróć na stronę główną.
           </p>
-          <NuxtLink to="/" class="btn btn--primary btn--lg success__btn">Strona główna</NuxtLink>
+          <NuxtLink to="/pl" class="btn btn--primary btn--lg success__btn">Strona główna</NuxtLink>
         </template>
       </div>
     </div>

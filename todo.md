@@ -70,6 +70,22 @@ to the buyer's local currency at Checkout (no code branching). VAT deferred for 
 - [ ] **Sanity-check the checkout redirect** with a `+location_XX` email (e.g. `test+location_GB@example.com`) —
   confirm Stripe Checkout shows that country's currency; base still books as PLN via `presentment_details`
 
+## 📥 Download-link expiry — support channel (needed within 7 days of first sale)
+
+- [x] **Download links expire 7 days after purchase** — stateless, enforced against Stripe
+  `session.created` in [download.get.ts](server/api/download.get.ts) (`DOWNLOAD_WINDOW_SECONDS` in
+  [stripe.ts](server/utils/stripe.ts)). Ships on next Dokploy deploy. Verified live (200 in-window / 410 after).
+- [ ] **Give the "link expired" message a real support channel** — it says *"Skontaktuj się z nami"* but
+  `kontakt@resend.codigo-studio.com` has **receiving disabled**, so replies bounce. Before 7 days after
+  the first sale: either enable receiving on the Resend domain, or point the copy at a real inbox.
+
+## 📨 Contact form / support
+
+- [ ] **Add a contact form** — floating mail icon in the nav ([pl/Header.vue](app/components/pl/Header.vue) +
+  [en/Header.vue](app/components/en/Header.vue)) opening a simple message form. Doubles as the support channel
+  for the expired-download message above. Delivery via Resend (already wired) to a real inbox; needs a spam
+  guard (honeypot/rate-limit) and RODO/GDPR consent line. PL + EN copy.
+
 ## ✨ Nice-to-have / polish (optional)
 
 - [ ] Legal pages: Regulamin + Polityka prywatności (link from footer) — often required for PL digital sales
