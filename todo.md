@@ -77,8 +77,9 @@ to the buyer's local currency at Checkout (no code branching). VAT deferred for 
   [stripe.ts](server/utils/stripe.ts)). Ships on next Dokploy deploy. Verified live (200 in-window / 410 after).
 - [x] **Support channel solved by the contact form** (below) — messages land in a real inbox
   (`NUXT_CONTACT_TO`) with the sender as reply-to, so no need to enable receiving on the Resend domain.
-- [ ] (Optional) Surface the contact form on `/success` too / link the "link expired" (410) copy to it —
-  the success page has no header, so a buyer hitting the expired link can't currently reach the form there.
+- [x] **Contact link on `/success`** — added "Problem z pobraniem? Napisz do nas" (paid branch) and
+  "Nie masz linku?" (no-session branch) in [success.vue](app/pages/success.vue), opening the global modal
+  via `useContact()`. Gives a buyer who hits an expired/failed download a way to reach support. Verified.
 
 ## 📨 Contact form / support
 
