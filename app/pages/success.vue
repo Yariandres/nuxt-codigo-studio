@@ -7,6 +7,11 @@ const downloadUrl = computed(() =>
 
 const hasSession = computed(() => sessionId.value.length > 0)
 
+// Lets a buyer reach the contact form from here — e.g. if the download link has
+// expired (410) or otherwise fails. This page has no header, so the modal (mounted
+// globally in app.vue) is opened directly via the shared composable.
+const { open: openContact } = useContact()
+
 const pixel = useMetaPixel()
 
 // Meta funnel: the conversion. Stripe redirects here after payment, so this is
@@ -59,6 +64,11 @@ useHead({ title: 'Dziękujemy — pobierz swój workbook' })
             też folder spam.
           </p>
 
+          <p class="success__help">
+            Problem z pobraniem?
+            <button type="button" class="success__contact" @click="openContact">Napisz do nas</button>
+          </p>
+
           <NuxtLink to="/" class="success__home">← Wróć na stronę główną</NuxtLink>
         </template>
 
@@ -69,6 +79,10 @@ useHead({ title: 'Dziękujemy — pobierz swój workbook' })
             linkiem do pobrania lub wróć na stronę główną.
           </p>
           <NuxtLink to="/pl" class="btn btn--primary btn--lg success__btn">Strona główna</NuxtLink>
+          <p class="success__help">
+            Nie masz linku?
+            <button type="button" class="success__contact" @click="openContact">Napisz do nas</button>
+          </p>
         </template>
       </div>
     </div>
@@ -125,6 +139,21 @@ useHead({ title: 'Dziękujemy — pobierz swój workbook' })
   font-size: 14px;
   color: var(--muted);
   max-width: 420px;
+}
+.success__help {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.success__contact {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s var(--ease);
+}
+.success__contact:hover {
+  color: var(--muted);
 }
 .success__home {
   margin-top: 24px;
